@@ -22,23 +22,24 @@ void sha1(std::string& data_) {
   // 补长
   output[size / 4 - 1] = len * 8;
   // 计算消息摘要
+  uint32_t j;
   uint32_t buf[5];
   uint32_t w[80];
   uint32_t k[] = { 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6 };
   uint32_t h[] = { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0 };
   uint32_t index, temp1, temp2;
   for (i = 0; i < size / 4; i += 16) {
-    for (uint32_t j = 0; j < 16; ++j) {
+    for (j = 0; j < 16; ++j) {
       w[j] = output[j + i];
     }
-    for (uint32_t j = 16; j < 80; ++j) {
+    for (j = 16; j < 80; ++j) {
       w[j] = w[j - 3] ^ w[j - 8] ^ w[j - 14] ^ w[j - 16];
       w[j] = (w[j] << 1) | (w[j] >> 31);
     }
-    for (uint32_t j = 0; j < 5; ++j) {
+    for (j = 0; j < 5; ++j) {
       buf[j] = h[j];
     }
-    for (uint32_t j = 0; j < 80; ++j) {
+    for (j = 0; j < 80; ++j) {
       index = j / 20;
       temp1 = index == 0 ? ((buf[1] & buf[2]) | (~buf[1] & buf[3])) :
         (index == 1 ? (buf[1] ^ buf[2] ^ buf[3]) :
@@ -51,7 +52,7 @@ void sha1(std::string& data_) {
       buf[1] = buf[0];
       buf[0] = temp2;
     }
-    for (uint32_t j = 0; j < 5; ++j) {
+    for (j = 0; j < 5; ++j) {
       h[j] += buf[j];
     }
   }
